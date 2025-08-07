@@ -2,61 +2,66 @@ package countriesList;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
 
 public class CountriesList {
     private ArrayList<String> countries = new ArrayList<>();
-    private int menuOption;
 
     public void displayWelcomeMessage() {
-        System.out.println("Welcome to the Countries List Program!");
+        System.out.println("Welcome to the Countries List App!");
     }
 
     public void displayMenu() {
         System.out.println("\nMenu:");
-        System.out.println("1. Display countries");
-        System.out.println("2. Add a country");
+        System.out.println("1. Display Countries");
+        System.out.println("2. Add a Country");
         System.out.println("3. Exit");
-        System.out.print("Enter your choice: ");
+        System.out.print("Choose an option: ");
     }
 
-    public int getMenuOption(Scanner scanner) {
-        while (!scanner.hasNextInt()) {
-            System.out.print("Please enter a number (1-3): ");
-            scanner.next();
+    public int getMenuOption(java.util.Scanner scanner) {
+        int option = 0;
+        try {
+            option = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a number.");
         }
-        menuOption = scanner.nextInt();
-        scanner.nextLine(); // clear newline
-        return menuOption;
+        return option;
     }
 
-    public boolean checkForCountry(String name) {
-        for (String country : countries) {
-            if (country.equalsIgnoreCase(name)) {
+    public boolean checkForCountry(String country) {
+        for (String c : countries) {
+            if (c.equalsIgnoreCase(country.trim())) {
                 return true;
             }
         }
         return false;
     }
 
-    public void addCountry(String name) {
-        if (checkForCountry(name)) {
-            System.out.println(name + " is already in the list.");
+    public void addCountry(String country) {
+        country = cleanInput(country);
+        if (checkForCountry(country)) {
+            System.out.println("That country is already in the list.");
         } else {
-            countries.add(name);
-            System.out.println(name + " has been added.");
+            countries.add(country);
+            System.out.println("Country added successfully.");
         }
     }
 
     public void listCountries() {
         if (countries.isEmpty()) {
-            System.out.println("No countries to display.");
+            System.out.println("No countries added yet.");
         } else {
             Collections.sort(countries);
-            System.out.println("Countries List:");
+            System.out.println("\nList of Countries:");
             for (String country : countries) {
                 System.out.println("- " + country);
             }
         }
+    }
+
+    // Helper method to clean up input (capitalizes nicely)
+    private String cleanInput(String input) {
+        input = input.trim().toLowerCase();
+        return input.substring(0, 1).toUpperCase() + input.substring(1);
     }
 }
