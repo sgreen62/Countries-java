@@ -1,0 +1,62 @@
+// CountriesList.java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
+public class CountriesList {
+    private ArrayList<String> countries;
+    private int menuOption;
+
+    public CountriesList() {
+        countries = new ArrayList<>();
+        menuOption = 0;
+    }
+
+    public void displayWelcomeMessage() {
+        System.out.println("Welcome to the Countries List App!");
+    }
+
+    public void displayMenu() {
+        System.out.println("\nPlease choose an option:");
+        System.out.println("1 - Display all countries");
+        System.out.println("2 - Add a new country");
+        System.out.println("3 - Exit");
+    }
+
+    public int getMenuOption(Scanner input) {
+        System.out.print("Enter your choice: ");
+        menuOption = input.nextInt();
+        input.nextLine(); // clear buffer
+        return menuOption;
+    }
+
+    public boolean checkForCountry(String country) {
+        for (String c : countries) {
+            if (c.equalsIgnoreCase(country)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addCountry(String country) {
+        if (checkForCountry(country)) {
+            System.out.println("This country is already in the list.");
+        } else {
+            countries.add(country);
+            System.out.println(country + " has been added.");
+        }
+    }
+
+    public void listCountries() {
+        if (countries.isEmpty()) {
+            System.out.println("The list is currently empty.");
+        } else {
+            Collections.sort(countries);
+            System.out.println("\nCountries in the list:");
+            for (String country : countries) {
+                System.out.println("- " + country);
+            }
+        }
+    }
+}
